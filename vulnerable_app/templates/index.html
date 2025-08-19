@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block body %}
+<p>Welcome. Try the <a href="{{ url_for('login') }}">login</a>, <a href="{{ url_for('comments') }}">comments</a>, or <a href="{{ url_for('download') }}">download</a>.</p>
+<p>New: IDOR endpoints — <code>/account?user_id=1</code>, and POST to <code>/transfer</code> with fields <code>from_user_id</code>, <code>to_user_id</code>, <code>amount</code>.</p>
+{% endblock %}

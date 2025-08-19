@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block body %}
+<h2>Post a comment</h2>
+<form method="post">
+  {{ form.csrf_token }}
+  Name: {{ form.username() }}<br>
+  Comment: {{ form.comment() }}<br>
+  <input type="submit" value="Post">
+</form>
+
+<h3>Recent comments</h3>
+<ul>
+  {% for e in entries %}
+    <li><strong>{{ e['username'] }}</strong>: {{ e['comment'] }}</li>
+  {% endfor %}
+</ul>
+{% endblock %}

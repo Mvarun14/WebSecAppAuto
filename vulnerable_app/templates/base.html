@@ -1,0 +1,12 @@
+<!doctype html>
+<html>
+<head><meta charset="utf-8"><title>WebAppSecLab - Vulnerable</title></head>
+<body>
+  <h1>WebAppSecLab (VULNERABLE)</h1>
+  <nav><a href="{{ url_for('index') }}">Home</a> |
+            <a href="{{ url_for('login') }}">Login</a> |
+            <a href="{{ url_for('comments') }}">Comments</a></nav>
+  <hr>
+  {% block body %}{% endblock %}
+</body>
+</html>
