@@ -8,7 +8,7 @@ APP_DB = 'secure.db'
 FILES_DIR = 'secure_app/files'
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'secure-secret'  # Use env in real apps
+app.config['SECRET_KEY'] = 'secure-secret'  
 
 def get_db():
     db = getattr(g, '_db', None)
@@ -73,7 +73,6 @@ def comments():
     entries = cur.fetchall()
     return render_template('comments.html', entries=entries, form=form)
 
-# SECURE: require resource owner for account
 @app.route('/account')
 def account():
     if 'user_id' not in session:
@@ -85,7 +84,7 @@ def account():
         return "Not found", 404
     return f"Account for {row['username']}: balance={row['balance']}"
 
-# SECURE: only allow transfer from own account
+
 @app.route('/transfer', methods=['POST'])
 def transfer():
     if 'user_id' not in session:
