@@ -35,7 +35,6 @@ def setup():
 def index():
     return render_template('index.html')
 
-# VULN: SQL injection via string formatting (also sets session but not used for authz)
 @app.route('/login', methods=['GET','POST'])
 def login():
     if request.method == 'POST':
@@ -52,7 +51,6 @@ def login():
         return "Login failed"
     return render_template('login.html')
 
-# VULN: Stored XSS (no sanitization, unsafe render)
 @app.route('/comments', methods=['GET','POST'])
 def comments():
     db = get_db()
@@ -66,7 +64,7 @@ def comments():
     entries = cur.fetchall()
     return render_template('comments.html', entries=entries)
 
-# VULN: Path traversal
+
 @app.route('/download')
 def download():
     fname = request.args.get('file','safe.txt')
@@ -75,7 +73,6 @@ def download():
     except Exception:
         abort(404)
 
-# VULN: IDOR - view account by arbitrary user_id param
 @app.route('/account')
 def account():
     user_id = request.args.get('user_id', type=int, default=None)
@@ -87,7 +84,6 @@ def account():
         return "Not found", 404
     return f"Account for {row['username']}: balance={row['balance']}"
 
-# VULN: IDOR - transfer allows specifying FROM account id directly
 @app.route('/transfer', methods=['POST'])
 def transfer():
     from_user_id = request.form.get('from_user_id', type=int)
@@ -96,7 +92,6 @@ def transfer():
     if None in (from_user_id, to_user_id, amount):
         return "Missing fields", 400
     db = get_db()
-    # no ownership/authz checks!
     db.execute("UPDATE accounts SET balance = balance - ? WHERE user_id = ?", (amount, from_user_id))
     db.execute("UPDATE accounts SET balance = balance + ? WHERE user_id = ?", (amount, to_user_id))
     db.commit()
